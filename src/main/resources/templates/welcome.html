@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Crystal Report Project</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div th:if="${errMsg != null}" th:text="${errMsg}" class="alert alert-danger"></div>
+		
+		<p th:text="#{label.welcome.back} + ' ' + ${fullName}"></p>
+	</div>
+</body>
+
+</html>

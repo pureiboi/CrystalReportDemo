@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<!-- Custom styles for this template -->
+
+<link href="/css/common.css" rel="stylesheet">
+<link href="/css/font-awesome.min.css" rel="stylesheet">
+<!-- Bootstrap core CSS -->
+
+<script src="/js/jquery-3.5.1.min.js"></script>
+<script src="/js/bootstrap/js/bootstrap.bundle.min.js"></script>
+<link href="/js/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/js/bootstrap/css/bootstrap-datepicker.min.css" rel="stylesheet">
+
+
+</head>
+<body>
+
+	<header>
+		<div class="card-header" th:replace="layout/header :: header"></div>
+	</header>
+
+	<main role="main" class="flex-shrink-0">
+
+	<div class="container">
+		<div layout:fragment="content"></div>
+	</div>
+	</main>
+
+	<!-- Bootstrap core JavaScript -->
+
+
+</body>
+
+</html>

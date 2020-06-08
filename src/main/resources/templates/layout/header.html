@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Crystal Report Project</title>
+
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="header">
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active">
+						<span class="navbar-brand mb-0 h1"> <a class="nav-link"
+						href="/"><img src="/img/logo.png"
+							width="30" height="30" alt=""></a>
+						</span>
+					</li>
+				<li class="nav-item"><a class="nav-link" href="/report/accountsummary"><span th:text="#{label.report.generation}"></span></a></a></li>
+				<li class="nav-item"><a class="nav-link" href="/report/scheduler"><span th:text="#{label.report.generation.schedule}"></span></a></a></li>
+			</ul>
+			<span class="navbar-text">
+			<div th:replace="component/lanSel :: lanSel"></div>
+			</span>
+			<span class="navbar-text">
+		      <a class="nav-link" href="/logout"><span th:text="#{label.logout}"></span></a>
+		    </span>
+		</div>
+	</nav>
+
+
+</body>
+
+</html>

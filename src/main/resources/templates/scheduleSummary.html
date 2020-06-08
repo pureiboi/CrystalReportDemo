@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/defaultLayout}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div th:if="${respMsg != null}" th:text="${respMsg}" class="alert alert-success"></div>
+		<div th:if="${errMsg != null}" th:text="${errMsg}" class="alert alert-danger"></div>
+		
+		<h3 th:text="#{label.report.generation.schedule}">自动生成账单</h3>
+		<form class=" my-2 my-lg-0" action="#" th:action="@{/report/scheduler}"
+			th:object="${reportForm}" method="post">
+			<div class="form-row">
+				<div class="form-group col-md-8">
+					<label for="duration" th:text="#{label.period}">报表周期</label> <input id="duration"
+						class="form-control w-25" style="display: inline-block;" type="number" value="30"
+						th:field="*{reportDuration}"> <span th:text="#{label.day}">天</span>
+				</div>
+			</div>
+
+			<div class="form-row">
+				<div class="form-group col-md-1">
+					<label for="datepcker1" th:text="#{label.frequency}">频率</label>
+				</div>
+
+				<div class="form-group col-md-4">
+					<div class="form-check-inline">
+						<input type="radio" id="option1" name="frequency"
+							class="custom-control-input form-check-input" value="monthly"
+							th:field="*{frequency}"> <label
+							class="custom-control-label form-check-label" for="option1"><span th:text="#{label.every.month}">每月</span></label>
+					</div>
+					<div class="form-check-inline">
+						<input type="radio" id="option2" name="frequency"
+							class="custom-control-input form-check-input" value="daily"
+							th:field="*{frequency}"> <label
+							class="custom-control-label form-check-label" for="option2"><span th:text="#{label.every.day}">每天</span></label>
+					</div>
+					<div class="form-check-inline">
+						<input type="radio" id="option3" name="frequency"
+							class="custom-control-input form-check-input" value="minute"
+							th:field="*{frequency}"> <label
+							class="custom-control-label form-check-label" for="option3"><span th:text="#{label.every.minute}">每分钟</span></label>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="form-row">
+
+				<div class="form-group col-md-10 ">
+					<label for="endCondition" th:text="#{label.limit.range}">次数 (0 =无限)</label> <input id="endCondition"
+						class="form-control w-25" style="display: inline-block;" type="number" value="2" th:field="*{endCondition}">
+					次
+				</div>
+			</div>
+			
+			<div class="form-row" th:if="${session.userInfo!=null && session.userInfo.isAdmin()}">
+				<div class="form-group col-md-12">
+					<label for="userNameId" th:text="#{label.userId}">要生成用户名称</label> <input id="userNameId"
+						class="w-25" type="text" value="a" th:field="*{userName}" >
+				</div>
+			</div>
+			<button type="submit" class="btn btn-success btn-lg" value="submit"><span th:text="#{label.task.create}">生成任务</span></button>
+		</form>
+
+		<p></p>
+		<h3 th:text="#{label.report.schedule.task}">任务表</h3>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col" th:text="#{label.owner}">配置者</th>
+					<th scope="col" th:text="#{label.task.date}">设置时间</th>
+					<th scope="col" th:text="#{label.task.next.execution}">下一次执行</th>
+					<th scope="col" th:text="#{label.task.active.status}">失效执行</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="form, taskStat : ${data}">
+					<td th:text="${taskStat.index} + 1"></td>
+					<td th:text="${form.owner}"></td>
+					<td th:text="${form.initialRun}"></td>
+					<td th:text="${form.nextRun}"></td>
+					<td th:text="${form.finalRun}"></td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+</body>
+
+</html>

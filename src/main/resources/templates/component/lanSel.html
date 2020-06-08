@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Crystal Report Project</title>
+</head>
+<body>
+	<span class="language-picker language-picker--flags js-language-picker"
+		data-trigger-class="btn btn--subtle js-tab-focus" th:fragment="lanSel">
+		<select id='lannguageSelector'>
+   			<option class="dropdown-item" value="?lang=en" th:selected="__${#locale}__=='en'"><span th:text="#{label.lang.en}"/></option>
+   			<option class="dropdown-item" value="?lang=zh" th:selected="__${#locale}__=='zh'"><span th:text="#{label.lang.zh}"/></option>
+    	</select>
+    	<script src="/js/jquery-3.5.1.min.js"></script>
+    	<script type="text/javascript">
+    	$( "#lannguageSelector" ).change(function() {
+    		  //alert( "Handler for .change() called. " + this.value  );
+    		  var url=window.location.href;
+    		  var pos = url.indexOf("?") == -1 ? 0 : url.indexOf("?") ;
+    		  
+    		  url = pos != 0 ? url.substring(url, pos) : url;
+    		  
+    		  //console.log("url: " + url);
+    		  //console.log("pos: " + pos);
+    		  window.location.href=url + this.value;
+    		});
+    	</script>
+	</span>
+</body>
+
+</html>
