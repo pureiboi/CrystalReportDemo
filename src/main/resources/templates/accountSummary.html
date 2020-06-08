@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/defaultLayout}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<body>
+	<div layout:fragment="content">
+
+		<h3>用户账生成</h3>
+		<form class="" action="#" th:action="@{/report/generate}" th:object="${reportForm}"
+			method="post">
+			<div class="form-group row">
+				<div class="form-group col-md-1 form-control-lg">
+					<label for="datepcker1">周期</label>
+				</div>
+
+				<div class="form-group col-md-5">
+					<div id="datepcker1" class="input-append date form_datetime">
+						<input type="text" th:field="*{dateFrom}" readonly> <span class="add-on"><i
+							class="fa fa-calendar" aria-hidden="true"></i></span>
+					</div>
+				</div>
+				<div class="form-group col-md-1 form-control-lg" >至</div>
+				<div class="form-group col-md-5">
+					<div class="input-append date form_datetime">
+						<input type="text" th:field="*{dateTo}" readonly> <span class="add-on"><i
+							class="fa fa-calendar" aria-hidden="true"></i></span>
+					</div>
+				</div>
+			</div>
+			<div class="form-row" th:if="${session.userInfo!=null && session.userInfo.isAdmin()}">
+				<div class="form-group col-md-12">
+					<label for="userNameId">用户名称</label> <input id="userNameId"
+						class="w-50" type="text" value="a" th:field="*{userName}" >
+				</div>
+			</div>
+			<button type="submit" class="btn btn-success btn-lg" value="submit" >生成</button>
+		</form>
+
+		<p></p>
+		<h3>任务下载表</h3>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">拥有者</th>
+					<th scope="col">文件名</th>
+					<th scope="col">创建日期</th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="form, taskStat : ${data}">
+					<td th:text="${taskStat.index} + 1"></td>
+					<td th:text="${form.user.userName}"  th:if="${form.user!=null}" ></td>
+					<td th:if="${form.user==null}" >用户不存在</td>
+					<td th:text="${form.docName}"></td>
+					<td th:text="${#dates.format(form.createDt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+					<td th:if="${form.user!=null}" ><a th:href="@{|/report/download?docId=${form.docId}|}">Download</a></td>
+					<td th:if="${form.user==null}" ></td>
+				</tr>
+			</tbody>
+		</table>
+		<script src="/js/bootstrap/js/bootstrap-datepicker.min.js"></script>
+
+		<script type="text/javascript">
+			$(".form_datetime").datepicker({
+				format : "dd-mm-yyyy",
+				autoclose : true,
+				todayBtn : "linked",
+				todayHighlight : true
+			});
+		</script>
+	</div>
+</body>
+
+
+
+</html>

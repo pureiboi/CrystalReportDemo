@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.3.0.RELEASE</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.boc</groupId>
+	<artifactId>CrystalReportDemo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>CrystalReportDemo</name>
+	<description>Crystal Report Demo using Spring Boot</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+		<jarName>CrystalReportDemo-${version}</jarName>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>nz.net.ultraq.thymeleaf</groupId>
+			<artifactId>thymeleaf-layout-dialect</artifactId>
+		</dependency>
+		<!-- -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-loader</artifactId>
+		</dependency>
+
+		<!-- scheduler start -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+		<!-- scheduler end -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+<!-- 			<scope>runtime</scope> -->
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc8</artifactId>
+			<version>12.2.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ucp</artifactId>
+			<version>19.6.0.0</version>
+		</dependency>
+
+		<!-- Crystal report dependencies start -->
+
+		<dependency>
+			<groupId>CrystalReportsRuntime</groupId>
+			<artifactId>CrystalReportsRuntime</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>CrystalCommon2</groupId>
+			<artifactId>CrystalCommon2</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>logging</groupId>
+			<artifactId>logging</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>keycodeDecoder</groupId>
+			<artifactId>keycodeDecoder</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>JDBInterface</groupId>
+			<artifactId>JDBInterface</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>DatabaseConnectors</groupId>
+			<artifactId>DatabaseConnectors</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jrcerom</groupId>
+			<artifactId>jrcerom</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>QueryBuilder</groupId>
+			<artifactId>QueryBuilder</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ibm.icu</groupId>
+			<artifactId>icu4j</artifactId>
+			<version>58.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+
+		<!-- Crystal report dependencies end -->
+	</dependencies>
+
+	<build>
+
+		<plugins>
+			<!-- load dependency -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<!-- <version>2.5.2</version> -->
+				<executions>
+					<execution>
+						<id>install-cr-runtime</id>
+						<phase>clean</phase>
+						<configuration>
+							<repositoryLayout>default</repositoryLayout>
+							<groupId>CrystalReportsRuntime</groupId>
+							<artifactId>CrystalReportsRuntime</artifactId>
+							<version>1.0</version>
+							<packaging>jar</packaging>
+							<file>${project.basedir}\lib\CrystalReportsRuntime.jar</file>
+						</configuration>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>install-cr-cmn</id>
+						<phase>clean</phase>
+						<configuration>
+							<repositoryLayout>default</repositoryLayout>
+							<groupId>CrystalCommon2</groupId>
+							<artifactId>CrystalCommon2</artifactId>
+							<version>1.0</version>
+							<packaging>jar</packaging>
+							<file>${project.basedir}\lib\CrystalCommon2.jar</file>
+						</configuration>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>install-cr-logging</id>
+						<phase>clean</phase>
+						<configuration>
+							<repositoryLayout>default</repositoryLayout>
+							<groupId>logging</groupId>
+							<artifactId>logging</artifactId>
+							<version>1.0</version>
+							<packaging>jar</packaging>
+							<file>${project.basedir}\lib\logging.jar</file>
+						</configuration>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>install-keycodedecoder</id>
+						<phase>clean</phase>
+						<configuration>
+							<repositoryLayout>default</repositoryLayout>
+							<groupId>keycodeDecoder</groupId>
+							<artifactId>keycodeDecoder</artifactId>
+							<version>1.0</version>
+							<packaging>jar</packaging>
+							<file>${project.basedir}\lib\keycodeDecoder.jar</file>
+						</configuration>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>install-jdbinterface</id>
+						<phase>clean</phase>
+						<configuration>
+							<repositoryLayout>default</repositoryLayout>
+							<groupId>JDBInterface</groupId>
+							<artifactId>JDBInterface</artifactId>
+							<version>1.0</version>
+							<packaging>jar</packaging>
+							<file>${project.basedir}\lib\JDBInterface.jar</file>
+						</configuration>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>install-dbconnector</id>
+						<phase>clean</phase>
+						<configuration>
+							<repositoryLayout>default</repositoryLayout>
+							<groupId>DatabaseConnectors</groupId>
+
+							<artifactId>DatabaseConnectors</artifactId>
+							<version>1.0</version>
+							<packaging>jar</packaging>
+							<file>${project.basedir}\lib\DatabaseConnectors.jar</file>
+						</configuration>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>install-jrcerom</id>
+						<phase>clean</phase>
+						<configuration>
+							<repositoryLayout>default</repositoryLayout>
+							<groupId>jrcerom</groupId>
+							<artifactId>jrcerom</artifactId>
+							<version>1.0</version>
+							<packaging>jar</packaging>
+							<file>${project.basedir}\lib\jrcerom.jar</file>
+						</configuration>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>install-querybuilder</id>
+						<phase>clean</phase>
+						<configuration>
+							<repositoryLayout>default</repositoryLayout>
+							<groupId>QueryBuilder</groupId>
+							<artifactId>QueryBuilder</artifactId>
+							<version>1.0</version>
+							<packaging>jar</packaging>
+							<file>${project.basedir}\lib\QueryBuilder.jar</file>
+						</configuration>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!-- override class loader issue due to external file source for report -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>repack</id>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+
+								<exec executable="cmd" dir="${project.build.directory}">
+									<arg
+										value="/C jar -vuf  ${jarName}.jar -C classes org" />
+								</exec>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<finalName>${jarName}</finalName>
+	</build>
+</project>
