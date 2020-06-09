@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.boc.crystalreportdemo.domain.User;
 import com.boc.crystalreportdemo.service.UserService;
@@ -51,6 +52,15 @@ public class WebController {
 		}
 
 		return "login";
+	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String doLogout(Model model, SessionStatus status) {
+		logger.info("navigate to logout");
+
+		model.addAttribute("userInfo", null);
+		status.setComplete();
+		return "forward:/";
 	}
 
 	@RequestMapping("/")

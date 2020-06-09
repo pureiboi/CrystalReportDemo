@@ -98,7 +98,10 @@ public class SimpleJobService {
 			Thread.sleep(EXECUTION_TIME);
 		} catch (InterruptedException ex) {
 			logger.error("Error with Simple job", ex);
-		} catch (Exception ex) {
+		} catch (NumberFormatException ex) {
+			
+		}
+		catch (Exception ex) {
 			logger.error("Unknown Error with Simple job", ex);
 		} finally {
 			count.incrementAndGet();

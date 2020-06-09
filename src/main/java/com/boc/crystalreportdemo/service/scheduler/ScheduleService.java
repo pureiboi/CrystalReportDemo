@@ -94,9 +94,10 @@ public class ScheduleService {
 		
 		SimpleDateFormat sf = new SimpleDateFormat(DateConstant.DATE_FORMAT_DD_MM_YYYY_HH_MM_SS);
 		
+		Date triggerStartDate = new Date(trigger.getJobDataMap().getLongValue("settingDate"));
 		form.setOwner(triggerKey.getGroup());
-		form.setInitialRun(sf.format(trigger.getStartTime()));
-		
+		form.setInitialRun(sf.format(triggerStartDate));
+
 		Date nextFireDate = trigger.getNextFireTime();
 		
 		if(nextFireDate != null) {

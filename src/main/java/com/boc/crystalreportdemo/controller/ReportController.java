@@ -12,6 +12,8 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.quartz.DateBuilder;
+import org.quartz.DateBuilder.IntervalUnit;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SimpleScheduleBuilder;
@@ -42,6 +44,7 @@ import com.boc.crystalreportdemo.domain.report.ReportForm;
 import com.boc.crystalreportdemo.domain.report.cr.ParamFieldObj;
 import com.boc.crystalreportdemo.domain.scheduler.SchedulerForm;
 import com.boc.crystalreportdemo.service.DocumentService;
+import com.boc.crystalreportdemo.service.UserService;
 import com.boc.crystalreportdemo.service.report.ReportService;
 import com.boc.crystalreportdemo.service.scheduler.ScheduleService;
 
@@ -62,6 +65,9 @@ public class ReportController {
 
 	@Autowired
 	private DocumentService documentService;
+	
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping(value = "/report/accountsummary", method = RequestMethod.GET)
 	public String prepareSummary(Model model) {
@@ -167,27 +173,44 @@ public class ReportController {
 	public String doScheduler(@ModelAttribute SchedulerForm form, Model model) {
 
 		Scheduler scheduler = schedulerFactory.getScheduler();
+		
+		model.addAttribute("reportForm", form);
+
 		User user = (User) model.getAttribute("userInfo");
 
-		if(!user.isAdmin() || StringUtils.isEmpty(form.getUserName())) {
+		if(!user.isAdmin()) {
 			form.setUserName(user.getUserName());
 		}
 		
-		String triggerId = user.getUserName() + System.currentTimeMillis();
+		
+		User userQuery = userService.getUserByUsername(form.getUserName());
+	
+		if(userQuery == null) {
+			model.addAttribute("errMsg", "用户不存在， 请重新设定");
+			prepareSchedulerData(model);
 
+			return "scheduleSummary";
+		}
+		
+		form.setUserName(userQuery.getUserName());
+		
+		Date jobStartDate = new Date();
+		String triggerId = user.getUserName() + System.currentTimeMillis();
 		try {
 			SimpleScheduleBuilder ssb = simpleSchedule();
 			String frequency = form.getFrequency();
 			switch (frequency) {
 			case "minute":
 				ssb.withIntervalInMinutes(1);
+				jobStartDate = DateBuilder.futureDate(1, IntervalUnit.MINUTE);
 				break;
 			case "daily":
 				ssb.withIntervalInHours(24);
-
+				jobStartDate = DateBuilder.futureDate(1, IntervalUnit.DAY);
 				break;
 			case "monthly":
 				ssb.withIntervalInHours(720);
+				jobStartDate = DateBuilder.futureDate(1, IntervalUnit.MONTH);
 				break;
 			}
 
@@ -212,18 +235,18 @@ public class ReportController {
 			if (duration.equalsIgnoreCase("")) {
 				duration = "30";
 			}
+			
 
 			Trigger newTrigger = newTrigger().forJob("Qrtz_Job_Detail").usingJobData("duration", duration)
-					.usingJobData("userName", form.getUserName())
+					.usingJobData("userName", form.getUserName()).usingJobData("settingDate", new Date().getTime())
 					.withIdentity(TriggerKey.triggerKey(triggerId, user.getUserName()))
-					.withDescription("Report Scheduler").withSchedule(ssb).build();
+					.withDescription("Report Scheduler").withSchedule(ssb).startAt(jobStartDate).build();
 			scheduler.scheduleJob(newTrigger);
 
 		} catch (SchedulerException ex) {
 			logger.error("SchedulerException on creating schedule", ex);
 		}
 
-		model.addAttribute("reportForm", form);
 		prepareSchedulerData(model);
 		model.addAttribute("respMsg", "任务以创建");
 		return "scheduleSummary";

@@ -10,6 +10,8 @@
 <body>
 	<div layout:fragment="content">
 		<div th:if="${respMsg != null}" th:text="${respMsg}" class="alert alert-success"></div>
+		<div th:if="${errMsg != null}" th:text="${errMsg}" class="alert alert-danger"></div>
+		
 		<h3>自动生成账单</h3>
 		<form class=" my-2 my-lg-0" action="#" th:action="@{/report/scheduler}"
 			th:object="${reportForm}" method="post">
