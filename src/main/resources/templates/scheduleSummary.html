@@ -18,7 +18,7 @@
 			<div class="form-row">
 				<div class="form-group col-md-8">
 					<label for="duration">报表周期</label> <input id="duration"
-						class="form-control w-25" type="text" value="30"
+						class="form-control w-25" style="display: inline-block;" type="number" value="30"
 						th:field="*{reportDuration}"> 天
 				</div>
 			</div>
@@ -55,7 +55,7 @@
 
 				<div class="form-group col-md-10 ">
 					<label for="endCondition">次数 (0 =无限)</label> <input id="endCondition"
-						class="form-control w-25" type="text" value="2" th:field="*{endCondition}">
+						class="form-control w-25" style="display: inline-block;" type="number" value="2" th:field="*{endCondition}">
 					次
 				</div>
 			</div>
