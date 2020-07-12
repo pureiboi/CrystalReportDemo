@@ -36,8 +36,8 @@ import com.demo.crystalreportdemo.domain.report.cr.ParamFieldObj;
 import com.demo.crystalreportdemo.domain.scheduler.SchedulerForm;
 import com.demo.crystalreportdemo.service.DocumentService;
 import com.demo.crystalreportdemo.service.business.AuthenticationService;
+import com.demo.crystalreportdemo.service.business.scheduler.ScheduleService;
 import com.demo.crystalreportdemo.service.report.ReportService;
-import com.demo.crystalreportdemo.service.scheduler.ScheduleService;
 
 @Controller
 @SessionAttributes("userInfo")
@@ -181,18 +181,15 @@ public class ReportController extends BaseController {
 
 			form.setUserName(userQuery.getUserName());
 
-			try {
-
-				scheduleService.scheduleJob(form);
-
-			} catch (SchedulerException ex) {
-				logger.error("SchedulerException on creating schedule", ex);
-			}
+			scheduleService.scheduleJob(form);
 
 			prepareSchedulerData(model);
 			model.addAttribute("respMsg", getBuddleMessage(MessageBundle.SUCC_TASK_CREATED));
+		} catch (SchedulerException ex) {
+			logger.error("SchedulerException on creating schedule", ex);
+			model.addAttribute("respMsg", getBuddleMessage(MessageBundle.ERR_SYSTEM_ERROR));
 		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex); 
+			logger.error(ex.getMessage(), ex);
 		}
 
 		return "scheduleSummary";

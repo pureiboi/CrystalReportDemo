@@ -10,8 +10,6 @@ import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -44,13 +42,12 @@ public class SchedulerConfig {
 	}
 
 	@Bean
-	public Scheduler scheduler(Trigger trigger, JobDetail job, SchedulerFactoryBean factory) throws SchedulerException {
+	public Scheduler scheduler(JobDetail job, SchedulerFactoryBean factory) throws SchedulerException {
 		logger.info("Getting a handle to the Scheduler");
 		Scheduler scheduler = factory.getScheduler();
-		scheduler.scheduleJob(job, trigger);
+		scheduler.addJob(job, true);
 
-		logger.info("Starting Scheduler threads");
-		scheduler.start();
+		logger.info("Starting Scheduler threads ");
 		return scheduler;
 	}
 
@@ -70,22 +67,10 @@ public class SchedulerConfig {
 	}
 
 	@Bean
-	public JobDetail jobDetail() {
+	public JobDetail simpleJobDetail() {
 
 		return JobBuilder.newJob().ofType(SimpleJob.class).storeDurably().withIdentity(JobKey.jobKey("Qrtz_Job_Detail"))
 				.withDescription("Invoke Sample Job service...").build();
-	}
-
-	@Bean
-	public Trigger trigger(JobDetail job) {
-
-		return TriggerBuilder.newTrigger().build();
-//		int frequencyInSec = 10;
-//		logger.info("Configuring trigger to fire every {} seconds", frequencyInSec);
-//
-//		return newTrigger().forJob(job).withIdentity(TriggerKey.triggerKey("Qrtz_Trigger"))
-//				.withDescription("Simple trigger")
-//				.withSchedule(simpleSchedule().withIntervalInSeconds(frequencyInSec)).build();
 	}
 
 }

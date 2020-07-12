@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.demo.crystalreportdemo.service.scheduler.SimpleJobService;
+import com.demo.crystalreportdemo.service.business.scheduler.SimpleJobService;
 
 @Component
 public class SimpleJob implements Job{

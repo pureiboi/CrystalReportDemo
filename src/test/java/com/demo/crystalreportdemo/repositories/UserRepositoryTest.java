@@ -1,16 +1,13 @@
 package com.demo.crystalreportdemo.repositories;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Example;
 
-import com.demo.crystalreportdemo.domain.Account;
 import com.demo.crystalreportdemo.domain.User;
 
 @DataJpaTest
@@ -19,12 +16,6 @@ public class UserRepositoryTest {
 	@Autowired
 	private UserRepository userRepository;
 	
-	@Autowired
-	private AccountRepository accountRepository;
-	
-//	@Autowired
-//	private UserService userService;
-
     @Test
     public void testSaveUser(){
     	
@@ -33,7 +24,7 @@ public class UserRepositoryTest {
         User user = new User();
        
         user.setFullName("im new name");
-        user.setUserName("userx1");
+        user.setUserName("user1");
         userRepository.save(user);
 
         long userCount = userRepository.count();
@@ -46,7 +37,7 @@ public class UserRepositoryTest {
     public void testHoldingAccount() {
     	
         User user = new User();
-        user.setUserName("user1");
+        user.setUserName("user2");
                
         Optional<User> result = userRepository.findOne(Example.of(user));
         
@@ -59,26 +50,21 @@ public class UserRepositoryTest {
         	userResult = result.get();
         }
         
-   
-        assertThat(userResult).isNotNull();
-        
-        assertThat(userResult.getUserId()).isNotNull();
-       
-        Set<Account> accounts = userResult.getAccounts();
-        
-        assertThat(accounts).isNotNull();
-        
-        Account acc = new Account();
-        User accUser = new User();
-        accUser.setUserId("userId1");
-        acc.setUser(accUser);
-        
-        List<Account> accResult= accountRepository.findAll(Example.of(acc));
-        
+        assertThat(userResult).isNull();;
 
-        assertThat(accResult).isNotNull();
+        userRepository.save(user);
         
-        assertThat(accounts.size()).isEqualTo(accResult.size());
+        result = userRepository.findOne(Example.of(user));
+        
+        if(result.isPresent())
+        {
+        	userResult = result.get();
+        }
+        
+   
+        assertThat(userResult).isNotNull();;
+
+        assertThat(userResult.getUserId()).isNotNull();
 
     }
 }

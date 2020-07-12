@@ -67,10 +67,10 @@ public class CrystalReportServiceImpl implements ReportService {
 		try {
 			Path reportFile = processFilePath(reportPath);
 
-			logger.info("report location: " + reportFile);
-			logger.info("report type: " + crystalReportType);
-			logger.info("report content type: " + crystalReportType.getContentType());
-			logger.info("report exists: " + Files.exists(reportFile));
+			logger.info("report location: {}", reportFile);
+			logger.info("report type: {}", crystalReportType);
+			logger.info("report content type: {}", crystalReportType.getContentType());
+			logger.info("report exists: {}", Files.exists(reportFile));
 
 			// Open report.
 			ReportClientDocument reportClientDoc = new ReportClientDocument();
@@ -106,9 +106,9 @@ public class CrystalReportServiceImpl implements ReportService {
 
 			for (Object obj : paramList) {
 				ParamFieldObj param = (ParamFieldObj) obj;
-				logger.info("subreport: " + param.getSubReportName());
-				logger.info("param name: " + param.getParamName());
-				logger.info("param value: " + param.getParamValue());
+				logger.info("subreport: {}", param.getSubReportName());
+				logger.info("param name: {}", param.getParamName());
+				logger.info("param value: {}", param.getParamValue());
 				paramFieldController.setCurrentValue(param.getSubReportName(), param.getParamName(),
 						param.getParamValue());
 			}
@@ -256,7 +256,7 @@ public class CrystalReportServiceImpl implements ReportService {
 
 		Resource res = resourceLoader.getResource(formatClassPath(reportPath));
 
-		logger.info("resource location: " + res.toString());
+		logger.info("resource location: {}", res.toString());
 		Path rel = null;
 		if (res.isFile()) {
 			logger.info("path is a file, no handling");
@@ -275,7 +275,7 @@ public class CrystalReportServiceImpl implements ReportService {
 			rel = destPath;
 
 		}
-		logger.info("path of report: " + rel);
+		logger.info("path of report: {}", rel);
 		return rel;
 	}
 

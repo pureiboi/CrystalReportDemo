@@ -1,4 +1,4 @@
-package com.demo.crystalreportdemo.service.scheduler;
+package com.demo.crystalreportdemo.service.business.scheduler;
 
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
@@ -11,17 +11,16 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.quartz.DateBuilder;
+import org.quartz.DateBuilder.IntervalUnit;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerKey;
-import org.quartz.DateBuilder.IntervalUnit;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
 import com.demo.crystalreportdemo.constant.DateConstant;
@@ -33,18 +32,17 @@ public class ScheduleService {
 
 	private static final Logger logger = LogManager.getLogger(ScheduleService.class);
 
-	@Autowired
-	private SchedulerFactoryBean schedulerFactory;
 
 	@Autowired
 	private Scheduler scheduler;
-
+	
 	@Autowired
 	private MessageSource messageSource;
 
 	public List<String> getAllTriggerGroupList() throws SchedulerException {
 
-		Scheduler scheduler = schedulerFactory.getScheduler();
+		//Scheduler scheduler = schedulerFactory.getScheduler();
+		
 		List<String> triggerGroupList = scheduler.getTriggerGroupNames();
 
 		logger.info("size: {}, trigger groups: {}", triggerGroupList.size(), triggerGroupList.toString());
@@ -54,7 +52,7 @@ public class ScheduleService {
 
 	public List<TriggerKey> getAllTriggerKeyByGroupName(String groupName) throws SchedulerException {
 
-		Scheduler scheduler = schedulerFactory.getScheduler();
+		//Scheduler scheduler = schedulerFactory.getScheduler();
 
 		logger.info("searching for group name: {}", groupName);
 		List<TriggerKey> triggerList = new ArrayList<>();
@@ -69,7 +67,7 @@ public class ScheduleService {
 
 	public Trigger getTriggerByTriggerKey(TriggerKey triggerKey) throws SchedulerException {
 
-		Scheduler scheduler = schedulerFactory.getScheduler();
+		//Scheduler scheduler = schedulerFactory.getScheduler();
 
 		logger.info("searching for trigger key name: {}, group name: {}, toString: {} ", triggerKey.getName(),
 				triggerKey.getGroup(), triggerKey.toString());
@@ -144,7 +142,7 @@ public class ScheduleService {
 		switch (frequency) {
 		case "minute":
 			ssb.withIntervalInMinutes(1);
-			jobStartDate = DateBuilder.futureDate(1, IntervalUnit.MINUTE);
+			//jobStartDate = DateBuilder.futureDate(1, IntervalUnit.MINUTE);
 			break;
 		case "daily":
 			ssb.withIntervalInHours(24);
@@ -182,7 +180,12 @@ public class ScheduleService {
 				.withIdentity(TriggerKey.triggerKey(triggerId, sForm.getUserName())).withDescription("Report Scheduler")
 				.withSchedule(ssb).startAt(jobStartDate).build();
 		
+		logger.info("is scheduler started? {}", scheduler.isStarted());
+
 		scheduler.scheduleJob(newTrigger);
+		
+		//scheduler.scheduleJob(simpleJobDetail, newTrigger);
+
 
 	}
 }

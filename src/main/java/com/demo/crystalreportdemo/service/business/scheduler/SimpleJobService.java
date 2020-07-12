@@ -1,4 +1,4 @@
-package com.demo.crystalreportdemo.service.scheduler;
+package com.demo.crystalreportdemo.service.business.scheduler;
 
 import java.io.ByteArrayInputStream;
 import java.sql.Timestamp;
@@ -60,8 +60,8 @@ public class SimpleJobService {
 			ParamFieldObj field1 = new ParamFieldObj("userName", userName);
 			ParamFieldObj field2 = new ParamFieldObj("dateFrom", dateParamFrom);
 			ParamFieldObj field3 = new ParamFieldObj("dateTo", dateParamTo);
-			logger.info("parsed dateFrom: " + dateParamFrom);
-			logger.info("parsed dateTo: " + dateParamFrom);
+			logger.info("parsed dateFrom: {}", dateParamFrom);
+			logger.info("parsed dateTo: {}", dateParamFrom);
 
 			List<Object> paramList = new ArrayList<>();
 			paramList.add(field1);
@@ -88,18 +88,17 @@ public class SimpleJobService {
 			String rel = sf.format(new Date());
 			// default: report-yyyymmdd-#############.pdf
 			String reportOutputName = "report-" + rel + "-" + System.currentTimeMillis() + "." + reportType.getNameLower();
-			logger.info("report output name: " + reportOutputName);
+			logger.info("report output name: {}", reportOutputName);
 			
 			document.setDocName(reportOutputName);
 			
 			documentService.saveDocument(document);
 			
-
 			Thread.sleep(EXECUTION_TIME);
 		} catch (InterruptedException ex) {
-			logger.error("Error with Simple job", ex);
+			logger.error("Error with Simple job - InterruptedException", ex);
 		} catch (NumberFormatException ex) {
-			
+			logger.error("Error with Simple job - NumberFormatException", ex);
 		}
 		catch (Exception ex) {
 			logger.error("Unknown Error with Simple job", ex);
