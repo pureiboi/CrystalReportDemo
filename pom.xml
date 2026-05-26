@@ -100,7 +100,7 @@
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ucp</artifactId>
-			<version>19.6.0.0</version>
+			<version>23.26.2.0.0</version>
 		</dependency>
 
 		<!-- Crystal report dependencies start -->
