@@ -1,0 +1,6 @@
+version: 2
+updates:
+  - package-ecosystem: "maven" # Required for Java/Maven projects
+    directory: "/"             # Path to your pom.xml
+    schedule:
+      interval: "monthly"        # Check for updates every day
